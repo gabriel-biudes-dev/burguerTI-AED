@@ -22,8 +22,12 @@ int mostrarMenu(){
   printf("\t8)Imprimir lista de extras\n");
   printf("\t9)Registrar novo pedido\n");
   printf("\t10)Imprimir pedido\n");
-  printf("\t11)Imprimir lista de pedidos atendidos\n");
-  printf("\t12)Sair\n");
+  printf("\t11)Imprimir fila de pedidos\n");
+  printf("\t12)Atender pedido\n");
+  printf("\t13)Mostrar pedidos atendidos\n");
+  printf("\t14)Desistir de um pedido\n");
+  printf("\t15)Carregar arquivo\n");
+  printf("\t16)Sair\n");
   printf("Opcao: ");
   scanf("%d%*c", &opt);
   return opt;
@@ -208,6 +212,7 @@ void cadastrarHamburguer(){
     scanf("%f", &h->precoM);
     printf("\nInforme o preco para tamanho pequeno: ");
     scanf("%f", &h->precoP);
+    h->preco_escolhido = -1;
     lh = insertH(lh, *h);
     salvarHamburguers(lh);
 }
@@ -227,6 +232,7 @@ void cadastrarBebida(){
     scanf("%f", &b->precoM);
     printf("\nInforme o preco para o tamanho pequeno: ");
     scanf("%f", &b->precoP);
+    b->preco_escolhido = -1;
     lb = insertB(lb, *b);
     salvarBebidas(lb);
 }
@@ -261,7 +267,7 @@ void cadastrarSobremesa(){
     salvarSobremesas(ls);
 }
 
-void mostrarlistaH(int opt, ListaH *lh){ 
+void mostrarlistaH(int opt, ListaH *lh, int opt2){ 
     ListaH *l;
     if(opt == 1) l = lh;
     else l = lerHamburguers();
@@ -272,14 +278,22 @@ void mostrarlistaH(int opt, ListaH *lh){
         printf("Descricao: %s\n", l->h.desc);
         if(l->h.disponivel) printf("Disponivel: sim\n");
         else printf("Disponivel: nao\n");
-        printf("Preco G: %.2f\n", l->h.precoG);
-        printf("Preco M: %.2f\n", l->h.precoM);
-        printf("Preco P: %.2f\n\n", l->h.precoP);
+        if(opt2){
+            printf("Tamanho escolhido: ");
+            if(l->h.preco_escolhido == l->h.precoG) printf("grande\n");
+            if(l->h.preco_escolhido == l->h.precoM) printf("medio\n");
+            if(l->h.preco_escolhido == l->h.precoP) printf("pequeno\n");
+            printf("Preco do produto: %.2f\n", l->h.preco_escolhido);
+        }else{
+            printf("Preco G: %.2f\n", l->h.precoG);
+            printf("Preco M: %.2f\n", l->h.precoM);
+            printf("Preco P: %.2f\n\n", l->h.precoP);
+        }
         l = l->prox;
     }
 }
 
-void mostrarlistaB(int opt, ListaB *lb){ 
+void mostrarlistaB(int opt, ListaB *lb, int opt2){ 
     ListaB *l;
     if(opt == 1) l = lb;
     else l = lerBebidas();
@@ -289,9 +303,17 @@ void mostrarlistaB(int opt, ListaB *lb){
         printf("Nome: %s\n", l->b.nome);
         if(l->b.disponivel) printf("Disponivel: sim\n");
         else printf("Disponivel: nao\n");
-        printf("Preco G: %.2f\n", l->b.precoG);
-        printf("Preco M: %.2f\n", l->b.precoM);
-        printf("Preco P: %.2f\n\n", l->b.precoP);
+        if(opt2){
+            printf("Tamanho escolhido: ");
+            if(l->b.preco_escolhido == l->b.precoG) printf("grande\n");
+            if(l->b.preco_escolhido == l->b.precoM) printf("medio\n");
+            if(l->b.preco_escolhido == l->b.precoP) printf("pequeno\n");
+            printf("Preco do produto: %.2f\n", l->b.preco_escolhido);
+        }else{
+            printf("Preco G: %.2f\n", l->b.precoG);
+            printf("Preco M: %.2f\n", l->b.precoM);
+            printf("Preco P: %.2f\n\n", l->b.precoP);
+        }
         l = l->prox;
     }
 }
@@ -343,9 +365,10 @@ Hamburguer* escolherHamburguer(){
     Hamburguer *h = (Hamburguer*) malloc(sizeof(Hamburguer));
     ListaH *l = lerHamburguers();
     int codigo;
+    char tamanho;
     h->codigo = -1;
     printf("\n[LISTA DE HAMBURGUERS DISPONIVEIS]\n");
-    mostrarlistaH(2, NULL);
+    mostrarlistaH(2, NULL, 0);
     printf("Insira o codigo do hamburguer: ");
     scanf("%d%*c", &codigo);
     while(l != NULL){
@@ -356,6 +379,11 @@ Hamburguer* escolherHamburguer(){
         printf("Hamburguer nao encontrado");
         return NULL;
     }
+    printf("\nInsira o tamanho do hamburguer (p/m/g): ");
+    scanf("%c%*c", &tamanho);
+    if(tamanho == 'p' || tamanho == 'P') h->preco_escolhido = h->precoP;
+    if(tamanho == 'm' || tamanho == 'M') h->preco_escolhido = h->precoM;
+    if(tamanho == 'g' || tamanho == 'G') h->preco_escolhido = h->precoG;
     return h;
 }
 
@@ -363,9 +391,10 @@ Bebida* escolherBebida(){
     Bebida *b = (Bebida*) malloc(sizeof(Bebida));
     ListaB *l = lerBebidas();
     int codigo;
+    char tamanho;
     b->codigo = -1;
     printf("\n[LISTA DE BEBIDAS DISPONIVEIS]\n");
-    mostrarlistaB(2, NULL);
+    mostrarlistaB(2, NULL, 0);
     printf("Insira o codigo da bebida: ");
     scanf("%d%*c", &codigo);
     while(l != NULL){
@@ -376,6 +405,11 @@ Bebida* escolherBebida(){
         printf("Bebida nao encontrada");
         return NULL;
     }
+    printf("\nInsira o tamanho da bebida (p/m/g): ");
+    scanf("%c%*c", &tamanho);
+    if(tamanho == 'p' || tamanho == 'P') b->preco_escolhido = b->precoP;
+    if(tamanho == 'm' || tamanho == 'M') b->preco_escolhido = b->precoM;
+    if(tamanho == 'g' || tamanho == 'G') b->preco_escolhido = b->precoG;
     return b;
 }
 
@@ -520,9 +554,9 @@ int calcTamanhoP(ListaP *l){
     return n;
 }
 
-void salvar_aux(Pedido *p){
+void salvar_aux(Pedido *p, char* arq){
     int tamanho = 0;
-    FILE *fp = fopen("pedidoaux.txt", "a");
+    FILE *fp = fopen(arq, "a");
     fprintf(fp, "%d", p->codigo);
     fprintf(fp, "%s", ";");
     fprintf(fp, "%d", calcTamanhoH(p->itens.h));
@@ -536,7 +570,7 @@ void salvar_aux(Pedido *p){
     fclose(fp);
 }
 
-void salvarPedidos(ListaP *l){
+void salvarPedidos(char* arq, ListaP *l){
     Pedido *p = (Pedido*) malloc(sizeof(Pedido));
     ListaH *lh = (ListaH*) malloc(sizeof(ListaH));
     ListaB *lb = (ListaB*) malloc(sizeof(ListaB));
@@ -548,7 +582,7 @@ void salvarPedidos(ListaP *l){
     Sobremesa *s = (Sobremesa*) malloc(sizeof(Sobremesa));
     int i;
 
-    FILE *fp = fopen("pedido.bin", "wb");
+    FILE *fp = fopen(arq, "wb");
     while(l != NULL){
         *p = l->p;
         lh = p->itens.h;
@@ -566,6 +600,7 @@ void salvarPedidos(ListaP *l){
             fwrite(&h->precoG, sizeof(float), 1, fp);
             fwrite(&h->precoM, sizeof(float), 1, fp);
             fwrite(&h->precoP, sizeof(float), 1, fp);
+            fwrite(&h->preco_escolhido, sizeof(float), 1, fp);
             lh = lh->prox;
         }
         while(lb != NULL){
@@ -576,6 +611,7 @@ void salvarPedidos(ListaP *l){
             fwrite(&b->precoG, sizeof(float), 1, fp);
             fwrite(&b->precoM, sizeof(float), 1, fp);
             fwrite(&b->precoP, sizeof(float), 1, fp);
+            fwrite(&b->preco_escolhido, sizeof(float), 1, fp);
             lb = lb->prox;
         }
         while(la != NULL){
@@ -628,7 +664,7 @@ ListaS* emptyS(){
     return aux;
 }
 
-ListaP* lerPedidos(){
+ListaP* lerPedidos(char* arq, char* arq2){
     ListaP *l = NULL;
     ListaH *lh;
     ListaB *lb;
@@ -644,7 +680,7 @@ ListaP* lerPedidos(){
     char *linha = (char*) malloc(100);
     char *aux = (char*) malloc(100);
     int i, j, k;
-    fp = fopen("pedidoaux.txt", "r");
+    fp = fopen(arq2, "r");
     for(i = 0; fgets(linha, 100, fp); i++){
         strcpy(aux, linha);
         aux = strtok(aux, ";");
@@ -658,12 +694,8 @@ ListaP* lerPedidos(){
         qs[i] = atoi(aux);
     }
     fclose(fp);
-    fp = fopen("pedido.bin", "rb");
+    fp = fopen(arq, "rb");
     for(j = 0; j < i; j++){
-        free(lh);
-        free(lb);
-        free(la);
-        free(ls);
         lh = emptyH();
         lb = emptyB();
         la = emptyA();
@@ -678,6 +710,7 @@ ListaP* lerPedidos(){
             fread(&h->precoG, sizeof(float), 1, fp);
             fread(&h->precoM, sizeof(float), 1, fp);
             fread(&h->precoP, sizeof(float), 1, fp);
+            fread(&h->preco_escolhido, sizeof(float), 1, fp);
             lh = insertH(lh, *h);
         }
         for(k = 0; k < qb[j]; k++){
@@ -687,6 +720,7 @@ ListaP* lerPedidos(){
             fread(&b->precoG, sizeof(float), 1, fp);
             fread(&b->precoM, sizeof(float), 1, fp);
             fread(&b->precoP, sizeof(float), 1, fp);
+            fread(&b->preco_escolhido, sizeof(float), 1, fp);
             lb = insertB(lb, *b);
         }
         for(k = 0; k < qa[j]; k++){
@@ -710,63 +744,165 @@ ListaP* lerPedidos(){
         l = insertP(l, p);
     }
     fclose(fp);
-    free(aux);
-    free(linha);
     return l;
 }
 
 void registrarPedido(){
-    ListaP *l = lerPedidos();
+    ListaP *l = lerPedidos("pedido.bin", "pedidoaux.txt");
     Pedido *pedido = (Pedido*) malloc(sizeof(Pedido));
     printf("\nInforme o codigo do pedido: ");
     scanf("%d%*c", &pedido->codigo);
     printf("\nInforme o CPF do cliente: ");
     scanf("%[^\n]%*c", pedido->cpf);
     pedido->itens = lerItens();
-    salvar_aux(pedido);
+    salvar_aux(pedido, "pedidoaux.txt");
     l = insertP(l, pedido);
-    salvarPedidos(l);
+    salvarPedidos("pedido.bin", l);
 }
 
-void mostrarPedido(){
-    Pedido *p = (Pedido*) malloc(sizeof(Pedido));
-    ListaP *l = lerPedidos();
-    int codigo;
-    p->codigo = -1;
-    printf("Insira o codigo do pedido: ");
-    scanf("%d%*c", &codigo);
-    while(l != NULL){
-        if(l->p.codigo == codigo) *p = l->p;
-        l = l->prox;
-    }
-    if(p->codigo == -1){
-        printf("\nPedido nao encontrado\n");
-        return;
-    }
+void mostrarPedidoInfo(Pedido *p){
     printf("\n[SANDUICHES DO PEDIDO]\n");
-    mostrarlistaH(1, p->itens.h);
+    mostrarlistaH(1, p->itens.h, 1);
     printf("\n[BEBIDAS DO PEDIDO]\n");
-    mostrarlistaB(1, p->itens.b);
+    mostrarlistaB(1, p->itens.b, 1);
     printf("\n[ACOMPANHAMENTOS DO PEDIDO]\n");
     mostrarlistaA(1, p->itens.a);
     printf("\n[SOBREMESAS DO PEDIDO]\n");
     mostrarlistaS(1, p->itens.s);
 }
 
+void mostrarPedido(){
+    Pedido *p = (Pedido*) malloc(sizeof(Pedido));
+    ListaP *l = lerPedidos("pedido.bin", "pedidoaux.txt");
+    ListaP *l2 = lerPedidos("pedidoat.bin", "pedidoauxat.txt");
+    int codigo, status;
+    p->codigo = -1;
+    status = 0;
+    printf("Insira o codigo do pedido: ");
+    scanf("%d%*c", &codigo);
+    while(l != NULL){
+        if(l->p.codigo == codigo) *p = l->p;
+        l = l->prox;
+    }
+    if(l == NULL){
+        while(l2 != NULL){
+            if(l2->p.codigo == codigo){
+                *p = l->p;
+                status = 1;
+            }
+            l2 = l2->prox;
+        }
+    }
+    if(p->codigo == -1){
+        printf("\nPedido nao encontrado\n");
+        return;
+    }
+    mostrarPedidoInfo(p);
+    if(status == 0) printf("\nStatus: nao atendido\n");
+    if(status == 1) printf("\nStatus: atendido\n");
+    free(l);
+}
+
+void mostrarPedidos(char* arq, char* arq2){
+    ListaP *l = lerPedidos(arq, arq2);
+    if(l == NULL) printf("Nao tem nenhum pedido\n");
+    while(l != NULL){
+        printf("\n[PEDIDO] %d ------------------------------------------------------------------------\n", l->p.codigo);
+        mostrarPedidoInfo(&l->p);
+        l = l->prox;
+    }
+    free(l);
+}
+
+void remover_linha(char* arq, int n){
+    FILE *fp;
+    int i, size;
+    char linha[100];
+    char str[MAX] = "";
+    fp = fopen(arq, "r");
+    for(i = 0; fgets(linha, 100, fp); i++){
+        if(i == n) continue;
+        strcat(str, linha);
+    }
+    fclose(fp);
+    fp = fopen(arq, "w");
+    fprintf(fp, "%s", str);
+    fclose(fp);
+}
+
+void atenderPedido(){
+    ListaP *l = lerPedidos("pedido.bin", "pedidoaux.txt");
+    ListaP *l2 = lerPedidos("pedidoat.bin", "pedidoauxat.txt");
+    if(l == NULL){
+        printf("Nao ha pedido a ser atendido\n");
+        return;
+    }
+    salvar_aux(&l->p, "pedidoauxat.txt");
+    remover_linha("pedidoaux.txt", 0);
+    l2 = insertP(l2, &l->p);
+    l = l->prox;
+    salvarPedidos("pedido.bin", l);
+    salvarPedidos("pedidoat.bin", l2);
+    printf("Pedido atendido\n");
+    free(l);
+    free(l2);
+}
+
+ListaP* remover_por_cpf(ListaP *l, char* cpf){
+    ListaP *ant = l;
+    ListaP *p = l;
+    
+    while(p != NULL && strcmp(p->p.cpf, cpf) != 0){
+        ant = p;
+        p = p->prox;
+    }
+    if(p != NULL){
+        if(p == l) l = l->prox;
+        else ant->prox = p->prox;
+        free(p);
+    }
+    return l;
+}
+
+void desistirPedido(){
+    ListaP *l = lerPedidos("pedido.bin", "pedidoaux.txt");
+    ListaP *aux = l;
+    char cpf[12];
+    int i = 0;
+    printf("Insira o CPF do cliente: ");
+    scanf("%s%*c", cpf);
+    while(l != NULL){
+        if(strcmp(l->p.cpf, cpf) == 0){
+            remover_linha("pedidoaux.txt", i);
+            aux = remover_por_cpf(aux, cpf);
+        }
+        i++;
+        l = l->prox;
+    }
+    salvarPedidos("pedido.bin", aux);
+    printf("O pedido desse cliente foi removido\n");
+    free(l);
+    free(aux);
+}
+
 int main() {
     int opt = 0;
-    while(opt != 12){
+    while(opt != 16){
         opt = mostrarMenu();
         if(opt == 1) cadastrarHamburguer();
         if(opt == 2) cadastrarBebida();
         if(opt == 3) cadastrarSobremesa();
         if(opt == 4) cadastrarAcompanhamento();
-        if(opt == 5) mostrarlistaH(2, NULL);
-        if(opt == 6) mostrarlistaB(2, NULL);
+        if(opt == 5) mostrarlistaH(2, NULL, 0);
+        if(opt == 6) mostrarlistaB(2, NULL, 0);
         if(opt == 7) mostrarlistaS(2, NULL);
         if(opt == 8) mostrarlistaA(2, NULL);
         if(opt == 9) registrarPedido();
         if(opt == 10) mostrarPedido();
+        if(opt == 11) mostrarPedidos("pedido.bin", "pedidoaux.txt");
+        if(opt == 12) atenderPedido();
+        if(opt == 13) mostrarPedidos("pedidoat.bin", "pedidoauxat.txt");
+        if(opt == 14) desistirPedido();
     }
     return 0 ;
 }
