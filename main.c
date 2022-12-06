@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "main.h"
 #include "hamburguer.h"
 #include "bebida.h"
 #include "acompanhamento.h"
@@ -9,6 +10,9 @@
 
 #define MAX 10000
 
+//Mostra o menu principal
+//Recebe: nada
+//Retorna: a opção escolhida
 int mostrarMenu(){
   int opt;
   printf("\n[MENU DO SISTEMA]\n");
@@ -33,6 +37,9 @@ int mostrarMenu(){
   return opt;
 }
 
+//Insere em uma lista
+//Recebe: a lista e o hamburguer
+//Retorna: a lista com o hamburguer inserido
 ListaH* insertH(ListaH* hlist, Hamburguer h){//insert hamburger
     ListaH* aux = (ListaH*) malloc(sizeof(ListaH));
     aux->h = h;
@@ -40,6 +47,9 @@ ListaH* insertH(ListaH* hlist, Hamburguer h){//insert hamburger
     return aux;
 }
 
+//Insere em uma lista
+//Recebe: a lista e o acompanhamento
+//Retorna: a lista com o acompanhamento inserido
 ListaA* insertA(ListaA* alist, Acompanhamento a){//insert acompanhamento
     ListaA* aux = (ListaA*) malloc(sizeof(ListaA));
     aux->a = a;
@@ -47,6 +57,9 @@ ListaA* insertA(ListaA* alist, Acompanhamento a){//insert acompanhamento
     return aux;
 }
 
+//Insere em uma lista
+//Recebe: a lista e a bebida
+//Retorna: a lista com a bebida inserida
 ListaB* insertB(ListaB* blist, Bebida b){//insert bebida
     ListaB* aux = (ListaB*) malloc(sizeof(ListaB));
     aux->b = b;
@@ -54,6 +67,9 @@ ListaB* insertB(ListaB* blist, Bebida b){//insert bebida
     return aux;
 }
 
+//Insere em uma lista
+//Recebe: a lista e a sobremesa
+//Retorna: a lista com a sobremesa inserida
 ListaS* insertS(ListaS* slist, Sobremesa s){//insert sobremesa
     ListaS* aux = (ListaS*) malloc(sizeof(ListaS));
     aux->s = s;
@@ -61,6 +77,9 @@ ListaS* insertS(ListaS* slist, Sobremesa s){//insert sobremesa
     return aux;
 }
 
+//Salva no arquivo binario
+//Recebe: uma lista de hamburguers
+//Retorna: nada
 void salvarHamburguers(ListaH *l){
     Hamburguer *h = (Hamburguer*) malloc(sizeof(Hamburguer));
     FILE *fp = fopen("hamburguer.bin", "wb");
@@ -79,6 +98,9 @@ void salvarHamburguers(ListaH *l){
     free(h);
 }
 
+//Salva no arquivo binario
+//Recebe: uma lista de bebidas
+//Retorna: nada
 void salvarBebidas(ListaB *l){
     Bebida *b = (Bebida*) malloc(sizeof(Bebida));
     FILE *fp = fopen("bebida.bin", "wb");
@@ -96,6 +118,9 @@ void salvarBebidas(ListaB *l){
     free(b);
 }
 
+//Salva no arquivo binario
+//Recebe: uma lista de acompanhamentos
+//Retorna: nada
 void salvarAcompanhamentos(ListaA *l){
     Acompanhamento *a = (Acompanhamento*) malloc(sizeof(Acompanhamento));
     FILE *fp = fopen("acompanhamento.bin", "wb");
@@ -111,6 +136,9 @@ void salvarAcompanhamentos(ListaA *l){
     free(a);
 }
 
+//Salva no arquivo binario
+//Recebe: uma lista de sobremesas
+//Retorna: nada
 void salvarSobremesas(ListaS *l){
     Sobremesa *s = (Sobremesa*) malloc(sizeof(Sobremesa));
     FILE *fp = fopen("sobremesa.bin", "wb");
@@ -126,6 +154,9 @@ void salvarSobremesas(ListaS *l){
     free(s);
 }
 
+//Lê dados de um arquivo binario
+//Recebe: nada
+//Retorna: lista de hamburguers
 ListaH* lerHamburguers(){
     ListaH *l = NULL;
     Hamburguer *h = (Hamburguer*) malloc(sizeof(Hamburguer));
@@ -145,6 +176,9 @@ ListaH* lerHamburguers(){
     return l;
 }
 
+//Lê dados de um arquivo binario
+//Recebe: nada
+//Retorna: lista de bebidas
 ListaB* lerBebidas(){
     ListaB *l = NULL;
     Bebida *b = (Bebida*) malloc(sizeof(Bebida));
@@ -163,6 +197,9 @@ ListaB* lerBebidas(){
     return l;
 }
 
+//Lê dados de um arquivo binario
+//Recebe: nada
+//Retorna: lista de acompanhamentos
 ListaA* lerAcompanhamentos(){
     ListaA *l = NULL;
     Acompanhamento *a = (Acompanhamento*) malloc(sizeof(Acompanhamento));
@@ -179,6 +216,9 @@ ListaA* lerAcompanhamentos(){
     return l;
 }
 
+//Lê dados de um arquivo binario
+//Recebe: nada
+//Retorna: lista de sobremesas
 ListaS* lerSobremesas(){
     ListaS *l = NULL;
     Sobremesa *s = (Sobremesa*) malloc(sizeof(Sobremesa));
@@ -195,6 +235,9 @@ ListaS* lerSobremesas(){
     return l;
 }
 
+//Registra um dado no arquivo binario
+//Recebe: nada
+//Retorna: nada
 void cadastrarHamburguer(){
     ListaH *lh = lerHamburguers();
     Hamburguer *h = (Hamburguer*) malloc(sizeof(Hamburguer));
@@ -217,6 +260,9 @@ void cadastrarHamburguer(){
     salvarHamburguers(lh);
 }
 
+//Registra um dado no arquivo binario
+//Recebe: nada
+//Retorna: nada
 void cadastrarBebida(){
     ListaB *lb = lerBebidas();
     Bebida *b = (Bebida*) malloc(sizeof(Bebida));
@@ -237,6 +283,9 @@ void cadastrarBebida(){
     salvarBebidas(lb);
 }
 
+//Registra um dado no arquivo binario
+//Recebe: nada
+//Retorna: nada
 void cadastrarAcompanhamento(){
     ListaA *la = lerAcompanhamentos();
     Acompanhamento *a = (Acompanhamento*)malloc(sizeof(Acompanhamento));
@@ -252,6 +301,9 @@ void cadastrarAcompanhamento(){
     salvarAcompanhamentos(la);
 }
 
+//Registra um dado no arquivo binario
+//Recebe: nada
+//Retorna: nada
 void cadastrarSobremesa(){
     ListaS *ls = lerSobremesas();
     Sobremesa *s = (Sobremesa*)malloc(sizeof(Sobremesa));
@@ -267,13 +319,16 @@ void cadastrarSobremesa(){
     salvarSobremesas(ls);
 }
 
+//Mostra os dados de uma lista
+//Recebe: lista de hamburguers, opt1 define se a lista é recebida via parametro ou deve-se ler a lista no arquivo binario, opt2 define se está mostrando um item por si ou um item de um pedido
+//Retorna: nada
 void mostrarlistaH(int opt, ListaH *lh, int opt2){ 
     ListaH *l;
     if(opt == 1) l = lh;
     else l = lerHamburguers();
     if(l == NULL) printf("A lista esta vazia\n");
     while(l != NULL){
-        printf("Codigo: %d\n", l->h.codigo);
+        printf("\nCodigo: %d\n", l->h.codigo);
         printf("Nome: %s\n", l->h.nome);
         printf("Descricao: %s\n", l->h.desc);
         if(l->h.disponivel) printf("Disponivel: sim\n");
@@ -293,13 +348,16 @@ void mostrarlistaH(int opt, ListaH *lh, int opt2){
     }
 }
 
+//Mostra os dados de uma lista
+//Recebe: lista de bebidas, opt1 define se a lista é recebida via parametro ou deve-se ler a lista no arquivo binario, opt2 define se está mostrando um item por si ou um item de um pedido
+//Retorna: nada
 void mostrarlistaB(int opt, ListaB *lb, int opt2){ 
     ListaB *l;
     if(opt == 1) l = lb;
     else l = lerBebidas();
     if(l == NULL) printf("A lista esta vazia\n");
     while(l != NULL){
-        printf("Codigo: %d\n", l->b.codigo);
+        printf("\nCodigo: %d\n", l->b.codigo);
         printf("Nome: %s\n", l->b.nome);
         if(l->b.disponivel) printf("Disponivel: sim\n");
         else printf("Disponivel: nao\n");
@@ -318,13 +376,16 @@ void mostrarlistaB(int opt, ListaB *lb, int opt2){
     }
 }
 
+//Mostra os dados de uma lista
+//Recebe: lista de acompanhamentos, opt1 define se a lista é recebida via parametro ou deve-se ler a lista no arquivo binario, opt2 define se está mostrando um item por si ou um item de um pedido
+//Retorna: nada
 void mostrarlistaA(int opt, ListaA *la){ 
     ListaA *l;
     if(opt == 1) l = la;
     else l = lerAcompanhamentos();
     if(l == NULL) printf("A lista esta vazia\n");
     while(l != NULL){
-        printf("Codigo: %d\n", l->a.codigo);
+        printf("\nCodigo: %d\n", l->a.codigo);
         printf("Nome: %s\n", l->a.nome);
         if(l->a.disponivel) printf("Disponivel: sim\n");
         else printf("Disponivel: nao\n");
@@ -333,13 +394,16 @@ void mostrarlistaA(int opt, ListaA *la){
     }
 }
 
+//Mostra os dados de uma lista
+//Recebe: lista de sobremesas, opt1 define se a lista é recebida via parametro ou deve-se ler a lista no arquivo binario, opt2 define se está mostrando um item por si ou um item de um pedido
+//Retorna: nada
 void mostrarlistaS(int opt, ListaS *ls){
     ListaS *l;
     if(opt == 1) l = ls;
     else l = lerSobremesas();
     if(l == NULL) printf("A lista esta vazia\n");
     while(l != NULL){
-        printf("Codigo: %d\n", l->s.codigo);
+        printf("\nCodigo: %d\n", l->s.codigo);
         printf("Nome: %s\n", l->s.nome);
         if(l->s.disponivel) printf("Disponivel: sim\n");
         else printf("Disponivel: nao\n");
@@ -348,6 +412,9 @@ void mostrarlistaS(int opt, ListaS *ls){
     }
 }
 
+//Mostra o menu do registro de pedido
+//Recebe: nada
+//Retorna: opção escolhida
 int mostrarMenuPedido(){
     int opt;
     printf("\n[MENU DO PEDIDO]\n");
@@ -361,6 +428,9 @@ int mostrarMenuPedido(){
     return opt;
 }
 
+//Mostra os itens cadastrados
+//Recebe: nada
+//Retorna: hamburguer escolhido
 Hamburguer* escolherHamburguer(){
     Hamburguer *h = (Hamburguer*) malloc(sizeof(Hamburguer));
     ListaH *l = lerHamburguers();
@@ -387,6 +457,9 @@ Hamburguer* escolherHamburguer(){
     return h;
 }
 
+//Mostra os itens cadastrados
+//Recebe: nada
+//Retorna: bebida escolhida
 Bebida* escolherBebida(){
     Bebida *b = (Bebida*) malloc(sizeof(Bebida));
     ListaB *l = lerBebidas();
@@ -413,6 +486,9 @@ Bebida* escolherBebida(){
     return b;
 }
 
+//Mostra os itens cadastrados
+//Recebe: nada
+//Retorna: acompanhamento escolhido
 Acompanhamento* escolherAcompanhamento(){
     Acompanhamento *a = (Acompanhamento*) malloc(sizeof(Acompanhamento));
     ListaA *l = lerAcompanhamentos();
@@ -433,6 +509,9 @@ Acompanhamento* escolherAcompanhamento(){
     return a;
 }
 
+//Mostra os itens cadastrados
+//Recebe: nada
+//Retorna: sobremesa escolhida
 Sobremesa* escolherSobremesa(){
     Sobremesa *s = (Sobremesa*) malloc(sizeof(Sobremesa));
     ListaS *l = lerSobremesas();
@@ -453,6 +532,9 @@ Sobremesa* escolherSobremesa(){
     return s;
 }
 
+//Lê os itens de um pedido
+//Recebe: nada
+//Retorna: os itens do pedido
 Itens lerItens(){
     Itens *itens = (Itens*) malloc(sizeof(Itens));
     Hamburguer *h;
@@ -494,6 +576,9 @@ Itens lerItens(){
     return *itens;
 }
 
+//Insere um dado na lista
+//Recebe: lista de pedidos e um pedido
+//Retorna: a nova lista com o pedido inserido
 ListaP* insertP(ListaP *l, Pedido *p){
     ListaP *aux = (ListaP*) malloc(sizeof(ListaP));
     aux->p = *p;
@@ -509,6 +594,9 @@ ListaP* insertP(ListaP *l, Pedido *p){
     return temp;
 }
 
+//Calcula o tamanho da lista
+//Recebe: lista de hamburguers
+//Retorna: tamanho da lista
 int calcTamanhoH(ListaH *l){
     int n = 0;
     while(l != NULL){
@@ -518,6 +606,9 @@ int calcTamanhoH(ListaH *l){
     return n;
 }
 
+//Calcula o tamanho da lista
+//Recebe: lista de bebidas
+//Retorna: tamanho da lista
 int calcTamanhoB(ListaB *l){
     int n = 0;
     while(l != NULL){
@@ -527,6 +618,9 @@ int calcTamanhoB(ListaB *l){
     return n;
 }
 
+//Calcula o tamanho da lista
+//Recebe: lista de acompanhamentos
+//Retorna: tamanho da lista
 int calcTamanhoA(ListaA *l){
     int n = 0;
     while(l != NULL){
@@ -536,6 +630,9 @@ int calcTamanhoA(ListaA *l){
     return n;
 }
 
+//Calcula o tamanho da lista
+//Recebe: lista de sobremesas
+//Retorna: tamanho da lista
 int calcTamanhoS(ListaS *l){
     int n = 0;
     while(l != NULL){
@@ -545,6 +642,9 @@ int calcTamanhoS(ListaS *l){
     return n;
 }
 
+//Calcula o tamanho da lista
+//Recebe: lista de pedidos
+//Retorna: tamanho da lista
 int calcTamanhoP(ListaP *l){
     int n = 0;
     while(l != NULL){
@@ -554,6 +654,9 @@ int calcTamanhoP(ListaP *l){
     return n;
 }
 
+//Salva a quantidade de itens do pedido no arquivo auxiliar
+//Recebe: o pedido e o nome do arquivo
+//Retorna: nada
 void salvar_aux(Pedido *p, char* arq){
     int tamanho = 0;
     FILE *fp = fopen(arq, "a");
@@ -570,6 +673,9 @@ void salvar_aux(Pedido *p, char* arq){
     fclose(fp);
 }
 
+//Salva uma lista de pedidos no arquivo binario
+//Recebe: o nome do arquivo e a lista de pedidos
+//Retorna: nada
 void salvarPedidos(char* arq, ListaP *l){
     Pedido *p = (Pedido*) malloc(sizeof(Pedido));
     ListaH *lh = (ListaH*) malloc(sizeof(ListaH));
@@ -644,26 +750,41 @@ void salvarPedidos(char* arq, ListaP *l){
     free(s);
 }
 
+//Cria uma lista vazia
+//Recebe: nada
+//Retorna: lista vazia de hamburguers
 ListaH* emptyH(){
     ListaH *aux = NULL;
     return aux;
 }
 
+//Cria uma lista vazia
+//Recebe: nada
+//Retorna: lista vazia de bebidas
 ListaB* emptyB(){
     ListaB *aux = NULL;
     return aux;
 }
 
+//Cria uma lista vazia
+//Recebe: nada
+//Retorna: lista vazia de acompanhamentos
 ListaA* emptyA(){
     ListaA *aux = NULL;
     return aux;
 }
 
+//Cria uma lista vazia
+//Recebe: nada
+//Retorna: lista vazia de sobremesas
 ListaS* emptyS(){
     ListaS *aux = NULL;
     return aux;
 }
 
+//Lê os pedidos em um arquivo binario
+//Recebe: nome do arquivo binario e nome do arquivo auxiliar
+//Retorna: lista de pedidos
 ListaP* lerPedidos(char* arq, char* arq2){
     ListaP *l = NULL;
     ListaH *lh;
@@ -747,6 +868,9 @@ ListaP* lerPedidos(char* arq, char* arq2){
     return l;
 }
 
+//Registra um pedido no arquivo binario
+//Recebe: nada
+//Retorna: nada
 void registrarPedido(){
     ListaP *l = lerPedidos("pedido.bin", "pedidoaux.txt");
     Pedido *pedido = (Pedido*) malloc(sizeof(Pedido));
@@ -760,6 +884,9 @@ void registrarPedido(){
     salvarPedidos("pedido.bin", l);
 }
 
+//Mostra dados de um pedido
+//Recebe: o pedido
+//Retorna: nada
 void mostrarPedidoInfo(Pedido *p){
     printf("\n[SANDUICHES DO PEDIDO]\n");
     mostrarlistaH(1, p->itens.h, 1);
@@ -771,6 +898,9 @@ void mostrarPedidoInfo(Pedido *p){
     mostrarlistaS(1, p->itens.s);
 }
 
+//Mostra um pedido a partir de seu código
+//Recebe: nada
+//Retorna: nada
 void mostrarPedido(){
     Pedido *p = (Pedido*) malloc(sizeof(Pedido));
     ListaP *l = lerPedidos("pedido.bin", "pedidoaux.txt");
@@ -780,6 +910,7 @@ void mostrarPedido(){
     status = 0;
     printf("Insira o codigo do pedido: ");
     scanf("%d%*c", &codigo);
+    printf("oi");
     while(l != NULL){
         if(l->p.codigo == codigo) *p = l->p;
         l = l->prox;
@@ -787,7 +918,7 @@ void mostrarPedido(){
     if(l == NULL){
         while(l2 != NULL){
             if(l2->p.codigo == codigo){
-                *p = l->p;
+                *p = l2->p;
                 status = 1;
             }
             l2 = l2->prox;
@@ -803,17 +934,24 @@ void mostrarPedido(){
     free(l);
 }
 
+//Mostra a lista armazenada em um arquivo binario
+//Recebe: o nome do arquivo binario e do arquivo auxiliar
+//Retorna: nada
 void mostrarPedidos(char* arq, char* arq2){
     ListaP *l = lerPedidos(arq, arq2);
     if(l == NULL) printf("Nao tem nenhum pedido\n");
     while(l != NULL){
         printf("\n[PEDIDO] %d ------------------------------------------------------------------------\n", l->p.codigo);
+        printf("CPF do cliente: %s\n", l->p.cpf);
         mostrarPedidoInfo(&l->p);
         l = l->prox;
     }
     free(l);
 }
 
+//Remove uma linha do arquivo de texto
+//Recebe: nome do arquivo e numero da linha (começando em 0)
+//Retorna: nada
 void remover_linha(char* arq, int n){
     FILE *fp;
     int i, size;
@@ -830,6 +968,9 @@ void remover_linha(char* arq, int n){
     fclose(fp);
 }
 
+//Atende um pedido
+//Recebe: nada
+//Retorna: nada
 void atenderPedido(){
     ListaP *l = lerPedidos("pedido.bin", "pedidoaux.txt");
     ListaP *l2 = lerPedidos("pedidoat.bin", "pedidoauxat.txt");
@@ -848,6 +989,9 @@ void atenderPedido(){
     free(l2);
 }
 
+//Remove um dado da lista a partir do CPF do cliente
+//Recebe: uma lista de pedidos e o cpf do cliente
+//Retorna: a nova lista sem o registro deletado
 ListaP* remover_por_cpf(ListaP *l, char* cpf){
     ListaP *ant = l;
     ListaP *p = l;
@@ -864,6 +1008,9 @@ ListaP* remover_por_cpf(ListaP *l, char* cpf){
     return l;
 }
 
+//Desiste de um pedido
+//Recebe: nada
+//Retorna: nada
 void desistirPedido(){
     ListaP *l = lerPedidos("pedido.bin", "pedidoaux.txt");
     ListaP *aux = l;
@@ -885,6 +1032,136 @@ void desistirPedido(){
     free(aux);
 }
 
+//Troca todas as ocorrências de x por y em uma string
+//Recebe: a string e os caracteres x e y
+//Retorna: a nova string
+char* trocar(char *str, char x, char y){
+    char *aux = (char*) malloc(strlen(str) + 1);
+    char *ptr = aux;
+    strcpy(aux, str);
+    while(*aux){
+        if(*aux == x) *aux = y;
+        aux++;
+    }
+    *aux = 0;
+    return ptr;
+}
+
+//Registra um produto a partir de uma string
+//Recebe: a string
+//Retorna: nada
+void registrarProduto(char *str){
+    char *aux = (char*) malloc(strlen(str) + 1);
+    str = strtok(str, ";");
+    if(strcmp(str, "SD") == 0){
+        ListaH *lh = lerHamburguers();
+        Hamburguer *h = (Hamburguer*) malloc(sizeof(Hamburguer));
+        str = strtok(NULL, ";");
+        h->codigo = atoi(str);
+        str = strtok(NULL, ";");
+        strcpy(h->nome, str);
+        str = strtok(NULL, ";");
+        strcpy(h->desc, str);
+        str = strtok(NULL, ";");
+        if(strcmp(str, "D") == 0) h->disponivel = 1;
+        else h->disponivel = 0;
+        str = strtok(NULL, ";");
+        str = trocar(str, ',', '.');
+        h->precoP = atof(str);
+        str = strtok(NULL, ";");
+        str = trocar(str, ',', '.');
+        h->precoM = atof(str);
+        str = strtok(NULL, ";");
+        str = trocar(str, ',', '.');
+        h->precoG = atof(str);
+        h->preco_escolhido = -1;
+        lh = insertH(lh, *h);
+        salvarHamburguers(lh);
+        free(h);
+        free(lh);
+    }
+    if(strcmp(str, "BB") == 0){
+        ListaB *lb = lerBebidas();
+        Bebida *b = (Bebida*) malloc(sizeof(Bebida));
+        str = strtok(NULL, ";");
+        b->codigo = atoi(str);
+        str = strtok(NULL, ";");
+        strcpy(b->nome, str);
+        str = strtok(NULL, ";");
+        if(strcmp(str, "D") == 0) b->disponivel =1;
+        else b->disponivel =0;
+        str = strtok(NULL, ";");
+        str = trocar(str, ',', '.');
+        b->precoP = atof(str);
+        str = strtok(NULL, ";");
+        str = trocar(str, ',', '.');
+        b->precoM = atof(str);
+        str = strtok(NULL, ";");
+        str = trocar(str, ',', '.');
+        b->precoG = atof(str);
+        b->preco_escolhido = -1;
+        lb = insertB(lb, *b);
+        salvarBebidas(lb);
+        free(b);
+        free(lb);
+    }
+    if(strcmp(str, "EX") == 0){
+        ListaA* la = lerAcompanhamentos();
+        Acompanhamento *a = (Acompanhamento*)malloc(sizeof(Acompanhamento));
+        str = strtok(NULL, ";");
+        a->codigo = atoi(str);
+        str = strtok(NULL, ";");
+        strcpy(a->nome, str);
+        str = strtok(NULL, ";");
+        if(strcmp(str, "D") == 0) a->disponivel = 1;
+        else a->disponivel = 0;
+        str = strtok(NULL, ";");
+        str = trocar(str, ',', '.');
+        a->preco = atof(str);
+        la = insertA(la, *a);
+        salvarAcompanhamentos(la);
+        free(a);
+        free(la);
+    }
+    if(strcmp(str, "SM") == 0){
+        ListaS* ls = lerSobremesas();
+        Sobremesa* s = (Sobremesa*)malloc(sizeof(Sobremesa));
+        str = strtok(NULL, ";");
+        s->codigo = atoi(str);
+        str = strtok(NULL, ";");
+        strcpy(s->nome, str);
+        str = strtok(NULL, ";");
+        if(strcmp(str, "D") == 0) s->disponivel = 1;
+        else s->disponivel = 0;
+        str = strtok(NULL, ";");
+        str = trocar(str, ',', '.');
+        s->preco = atof(str);
+        ls = insertS(ls, *s);
+        salvarSobremesas(ls);
+        free(s);
+        free(ls);
+    }
+
+}
+
+//Carrega os dados de um arquivo de texto para o programa
+//Recebe: nada
+//Retorna: nada
+void carregarArquivo(){
+    char arq[100];
+    char linha[500];
+    int i;
+    FILE *fp;
+    printf("Insira o nome do arquivo a ser carregado: ");
+    scanf("%s%*c", arq);
+    fp = fopen(arq, "r");
+    for(i = 0; fgets(linha, 500, fp); i++) registrarProduto(linha);
+    fclose(fp);
+}
+
+//Função principal
+//Recebe: nada
+//Retorna: 0
 int main() {
     int opt = 0;
     while(opt != 16){
@@ -903,6 +1180,7 @@ int main() {
         if(opt == 12) atenderPedido();
         if(opt == 13) mostrarPedidos("pedidoat.bin", "pedidoauxat.txt");
         if(opt == 14) desistirPedido();
+        if(opt == 15) carregarArquivo();
     }
     return 0 ;
 }
